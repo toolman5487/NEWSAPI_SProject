@@ -6,8 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		15842E382EB107060062C776 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15842E372EB107060062C776 /* MainTabBarController.swift */; };
+		15842E3B2EB107190062C776 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15842E3A2EB107190062C776 /* SnapKit */; };
+		15842E3E2EB107290062C776 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 15842E3D2EB107290062C776 /* SDWebImage */; };
+		15842E412EB108970062C776 /* MainHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15842E402EB108970062C776 /* MainHomeViewController.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		15842E1E2EB102CE0062C776 /* NEWSAPI_SProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NEWSAPI_SProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		15842E372EB107060062C776 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		15842E402EB108970062C776 /* MainHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15842E3E2EB107290062C776 /* SDWebImage in Frameworks */,
+				15842E3B2EB107190062C776 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +56,8 @@
 		15842E152EB102CE0062C776 = {
 			isa = PBXGroup;
 			children = (
+				15842E3F2EB108720062C776 /* MainHome */,
+				15842E362EB106ED0062C776 /* MainTabBar */,
 				15842E202EB102CE0062C776 /* NEWSAPI_SProject */,
 				15842E1F2EB102CE0062C776 /* Products */,
 			);
@@ -56,6 +69,22 @@
 				15842E1E2EB102CE0062C776 /* NEWSAPI_SProject.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		15842E362EB106ED0062C776 /* MainTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				15842E372EB107060062C776 /* MainTabBarController.swift */,
+			);
+			path = MainTabBar;
+			sourceTree = "<group>";
+		};
+		15842E3F2EB108720062C776 /* MainHome */ = {
+			isa = PBXGroup;
+			children = (
+				15842E402EB108970062C776 /* MainHomeViewController.swift */,
+			);
+			path = MainHome;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,6 +107,8 @@
 			);
 			name = NEWSAPI_SProject;
 			packageProductDependencies = (
+				15842E3A2EB107190062C776 /* SnapKit */,
+				15842E3D2EB107290062C776 /* SDWebImage */,
 			);
 			productName = NEWSAPI_SProject;
 			productReference = 15842E1E2EB102CE0062C776 /* NEWSAPI_SProject.app */;
@@ -107,6 +138,10 @@
 			);
 			mainGroup = 15842E152EB102CE0062C776;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				15842E392EB107190062C776 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				15842E3C2EB107290062C776 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 15842E1F2EB102CE0062C776 /* Products */;
 			projectDirPath = "";
@@ -132,6 +167,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15842E412EB108970062C776 /* MainHomeViewController.swift in Sources */,
+				15842E382EB107060062C776 /* MainTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +187,6 @@
 				INFOPLIST_FILE = NEWSAPI_SProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -182,7 +218,6 @@
 				INFOPLIST_FILE = NEWSAPI_SProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -345,6 +380,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		15842E392EB107190062C776 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		15842E3C2EB107290062C776 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.21.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		15842E3A2EB107190062C776 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15842E392EB107190062C776 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		15842E3D2EB107290062C776 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15842E3C2EB107290062C776 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 15842E162EB102CE0062C776 /* Project object */;
 }
