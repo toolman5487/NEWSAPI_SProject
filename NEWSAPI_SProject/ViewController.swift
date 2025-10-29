@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .label
-        self.title = "首頁"
+        self.title = "ViewController"
     }
 
 
