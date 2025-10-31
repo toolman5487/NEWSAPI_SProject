@@ -7,7 +7,23 @@
 
 import Foundation
 
+// MARK: - Sources Response
+struct SourcesResponse: Decodable {
+    let status: String
+    let sources: [SourceItem]
+}
 
+struct SourceItem: Decodable {
+    let id: String
+    let name: String
+    let description: String
+    let url: String
+    let category: String
+    let language: String
+    let country: String
+}
+
+// MARK: - Articles Response
 struct ArticlesResponse: Decodable {
     let status: String
     let totalResults: Int
