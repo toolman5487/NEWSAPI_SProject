@@ -8,46 +8,78 @@
 import Foundation
 import UIKit
 import SnapKit
+import Combine
 
 class NewsSearchViewController: UIViewController {
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 16
-        layout.minimumInteritemSpacing = 0
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 120)
-        
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = .clear
-        cv.showsVerticalScrollIndicator = true
-        cv.delegate = self
-        cv.dataSource = self
-        return cv
+    private let viewModel = NewsSearchViewModel()
+    private var cancellables = Set<AnyCancellable>()
+    
+    private lazy var searchController: UISearchController = {
+        let sc = UISearchController(searchResultsController: nil)
+        sc.searchBar.delegate = self
+        sc.searchBar.placeholder = "Search news..."
+        sc.obscuresBackgroundDuringPresentation = false
+        return sc
+    }()
+    
+    private lazy var collectionView: BaseListCollectionView = {
+        let view = BaseListCollectionView(frame: .zero)
+        view.collectionView.delegate = self
+        view.collectionView.dataSource = self
+        view.collectionView.register(NewsSearchCell.self, forCellWithReuseIdentifier: NewsSearchCell.reuseIdentifier)
+        return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupUI()
+        bindViewModel()
     }
     
     private func setupUI() {
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    private func bindViewModel() {
+        viewModel.$articles
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.collectionView.collectionView.reloadData()
+            }
+            .store(in: &cancellables)
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension NewsSearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text, !text.isEmpty else { return }
+        viewModel.searchQuery = text
+        viewModel.search()
+        searchBar.resignFirstResponder()
     }
 }
 
 // MARK: - UICollectionViewDataSource
 extension NewsSearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return viewModel.articles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsSearchCell.reuseIdentifier, for: indexPath) as? NewsSearchCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(with: viewModel.articles[indexPath.item])
+        return cell
     }
 }
 
