@@ -12,7 +12,8 @@ import Combine
 
 class MainHomeViewController: UIViewController {
     
-    private let searchController = UISearchController(searchResultsController: nil)
+    private let searchResultsController = NewsSearchViewController()
+    private lazy var searchController = UISearchController(searchResultsController: searchResultsController)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,17 +26,8 @@ class MainHomeViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .always
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search news..."
-        searchController.searchBar.delegate = self
+        searchController.searchResultsUpdater = searchResultsController
         navigationItem.searchController = searchController
         definesPresentationContext = true
-    }
-}
-
-// MARK: - UISearchBarDelegate
-extension MainHomeViewController: UISearchBarDelegate {
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        let vc = NewsSearchViewController()
-        navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -17,7 +17,7 @@ class BaseListCollectionView: UIView {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 0
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 120)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 200)
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear

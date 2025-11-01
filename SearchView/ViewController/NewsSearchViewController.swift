@@ -15,14 +15,6 @@ class NewsSearchViewController: UIViewController {
     private let viewModel = NewsSearchViewModel()
     private var cancellables = Set<AnyCancellable>()
     
-    private lazy var searchController: UISearchController = {
-        let sc = UISearchController(searchResultsController: nil)
-        sc.searchBar.delegate = self
-        sc.searchBar.placeholder = "Search news..."
-        sc.obscuresBackgroundDuringPresentation = false
-        return sc
-    }()
-    
     private lazy var collectionView: BaseListCollectionView = {
         let view = BaseListCollectionView(frame: .zero)
         view.collectionView.delegate = self
@@ -39,9 +31,6 @@ class NewsSearchViewController: UIViewController {
     }
     
     private func setupUI() {
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -58,13 +47,15 @@ class NewsSearchViewController: UIViewController {
     }
 }
 
-// MARK: - UISearchBarDelegate
-extension NewsSearchViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text, !text.isEmpty else { return }
-        viewModel.searchQuery = text
+// MARK: - UISearchResultsUpdating
+extension NewsSearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else {
+            viewModel.clearResults()
+            return
+        }
+        viewModel.searchQuery = searchText
         viewModel.search()
-        searchBar.resignFirstResponder()
     }
 }
 
@@ -85,5 +76,17 @@ extension NewsSearchViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension NewsSearchViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let article = viewModel.articles[indexPath.item]
+        let detailVC = NewsDetailViewController()
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension NewsSearchViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width - 32, height: 120)
+    }
+}
+

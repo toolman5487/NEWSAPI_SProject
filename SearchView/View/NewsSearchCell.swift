@@ -16,7 +16,7 @@ class NewsSearchCell: UICollectionViewCell {
     
     private let thumbnailImageView: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 8
         image.backgroundColor = .systemGray5
@@ -33,8 +33,8 @@ class NewsSearchCell: UICollectionViewCell {
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
-        label.numberOfLines = 4
+        label.font = .systemFont(ofSize: 12)
+        label.numberOfLines = 3
         label.textColor = .secondaryLabel
         return label
     }()
@@ -44,6 +44,15 @@ class NewsSearchCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = .systemBlue
         return label
+    }()
+    
+    private lazy var textStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel, sourceLabel])
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 8
+        return stack
     }()
     
     override init(frame: CGRect) {
@@ -57,28 +66,19 @@ class NewsSearchCell: UICollectionViewCell {
     
     private func setupUI() {
         contentView.addSubview(thumbnailImageView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(sourceLabel)
+        contentView.addSubview(textStackView)
         
         thumbnailImageView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
-            make.height.equalTo(200)
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.height.equalTo(120)
+            make.width.equalTo(160)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(thumbnailImageView.snp.bottom).offset(8)
-        }
-        
-        descriptionLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(titleLabel.snp.bottom).offset(4)
-        }
-        
-        sourceLabel.snp.makeConstraints { make in
-            make.leading.bottom.equalToSuperview()
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(4)
+        textStackView.snp.makeConstraints { make in
+            make.leading.equalTo(thumbnailImageView.snp.trailing).offset(12)
+            make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
     }
     
