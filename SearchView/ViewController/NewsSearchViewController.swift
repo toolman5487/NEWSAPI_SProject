@@ -79,7 +79,12 @@ extension NewsSearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let article = viewModel.articles[indexPath.item]
         let detailVC = NewsDetailViewController()
-        navigationController?.pushViewController(detailVC, animated: true)
+        detailVC.configure(with: article)
+        if let nav = presentingViewController?.navigationController {
+            nav.pushViewController(detailVC, animated: true)
+        } else {
+            present(detailVC, animated: true)
+        }
     }
 }
 
