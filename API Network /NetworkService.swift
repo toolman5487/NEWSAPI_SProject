@@ -49,10 +49,10 @@ final class NetworkService {
             urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.httpBody = try? JSONEncoder().encode(AnyEncodable(body))
         }
-
+        
         return session.dataTaskPublisher(for: urlRequest)
             .tryMap { data, response in
-                guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+                guard let http = response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
                 }
                 return data

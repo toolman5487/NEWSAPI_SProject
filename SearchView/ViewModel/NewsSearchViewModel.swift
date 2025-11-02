@@ -29,10 +29,13 @@ class NewsSearchViewModel {
     // MARK: - Actions
     func search() {
         guard !searchQuery.trimmingCharacters(in: .whitespaces).isEmpty else {
+            clearResults()
             return
         }
+        
         isLoading = true
         errorMessage = nil
+        
         service.searchEverything(query: searchQuery, sortBy: nil, language: nil, pageSize: 20)
             .receive(on: DispatchQueue.main)
             .sink(

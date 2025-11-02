@@ -10,6 +10,11 @@ import UIKit
 import SnapKit
 import Combine
 
+// MARK: - Dynamic Height Protocol
+protocol DynamicHeightCollectionViewCell: UICollectionViewCell {
+    func calculateSize(for width: CGFloat) -> CGSize
+}
+
 class BaseListCollectionView: UIView {
     
     lazy var collectionView: UICollectionView = {
@@ -17,7 +22,6 @@ class BaseListCollectionView: UIView {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 0
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 200)
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear

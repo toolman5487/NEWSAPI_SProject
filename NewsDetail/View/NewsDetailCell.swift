@@ -145,7 +145,7 @@ class NewsDetailMetadataCell: UICollectionViewCell {
 }
 
 // MARK: - Content Cell
-class NewsDetailContentCell: UICollectionViewCell {
+class NewsDetailContentCell: UICollectionViewCell, DynamicHeightCollectionViewCell {
     
     static let reuseIdentifier = "NewsDetailContentCell"
     
@@ -169,12 +169,23 @@ class NewsDetailContentCell: UICollectionViewCell {
     private func setupUI() {
         contentView.addSubview(contentLabel)
         contentLabel.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(16)
+            make.edges.equalToSuperview().inset(16)
         }
     }
     
     func configure(with content: String?) {
-        contentLabel.text = content ?? "No content available"
+        contentLabel.text = content ?? nil
+    }
+    
+    func calculateSize(for width: CGFloat) -> CGSize {
+        // Use current configured cell to calculate size
+        let savedFrame = frame
+        frame = CGRect(x: 0, y: 0, width: width, height: UIView.layoutFittingCompressedSize.height)
+        layoutIfNeeded()
+        let targetSize = CGSize(width: width, height: UIView.layoutFittingCompressedSize.height)
+        let size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+        frame = savedFrame // Restore frame
+        return CGSize(width: width, height: size.height)
     }
 }
 

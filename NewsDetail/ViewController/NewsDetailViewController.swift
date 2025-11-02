@@ -12,6 +12,10 @@ import Combine
 
 class NewsDetailViewController: UIViewController {
     
+    enum NewsDetailSection: Int, CaseIterable {
+        case title, image, metadata, content, readMore
+    }
+    
     private var article: Article?
     private var cancellables = Set<AnyCancellable>()
     
@@ -56,10 +60,6 @@ class NewsDetailViewController: UIViewController {
         self.article = article
         collectionView.reloadData()
     }
-}
-
-enum NewsDetailSection: Int, CaseIterable {
-    case title, image, metadata, content, readMore
 }
 
 // MARK: - UICollectionViewDataSource
@@ -132,7 +132,10 @@ extension NewsDetailViewController: UICollectionViewDelegateFlowLayout {
         case .metadata:
             return CGSize(width: width, height: 60)
         case .content:
-            return CGSize(width: width, height: 200)
+            guard let article = article else { return CGSize(width: width, height: 0) }
+            let contentCell = NewsDetailContentCell()
+            contentCell.configure(with: article.description)
+            return contentCell.calculateSize(for: width)
         case .readMore:
             return CGSize(width: width, height: 80)
         }

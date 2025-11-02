@@ -14,6 +14,7 @@ class NewsSearchViewController: UIViewController {
     
     private let viewModel = NewsSearchViewModel()
     private var cancellables = Set<AnyCancellable>()
+    private var searchTask: DispatchWorkItem?
     
     private lazy var collectionView: BaseListCollectionView = {
         let view = BaseListCollectionView(frame: .zero)
@@ -44,18 +45,40 @@ class NewsSearchViewController: UIViewController {
                 self?.collectionView.collectionView.reloadData()
             }
             .store(in: &cancellables)
+        
+        viewModel.$errorMessage
+            .compactMap { $0 }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] errorMessage in
+                print("Search Error: \(errorMessage)")
+                let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self?.present(alert, animated: true)
+            }
+            .store(in: &cancellables)
     }
 }
 
 // MARK: - UISearchResultsUpdating
 extension NewsSearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else {
+        guard let searchText = searchController.searchBar.text else { return }
+        
+        // Cancel previous search task
+        searchTask?.cancel()
+        
+        if searchText.isEmpty {
             viewModel.clearResults()
             return
         }
-        viewModel.searchQuery = searchText
-        viewModel.search()
+        
+        // Debounce: Wait 0.5 seconds before searching
+        let task = DispatchWorkItem { [weak self] in
+            self?.viewModel.searchQuery = searchText
+            self?.viewModel.search()
+        }
+        searchTask = task
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: task)
     }
 }
 
